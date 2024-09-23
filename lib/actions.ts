@@ -11,7 +11,7 @@ const ContactSchema = z.object({
     phone: z.string().min(11) //minimal angka untuk nomor telpon yang dimasukkan
 })
 
-
+/* Action Save Contact */
 export const saveContact = async (prevState: any,Datalengkap /* Parameter di isi dengan bebas */: FormData /*sehabis parameter, isi tipe data conoth (FormData) */) => {
     /*const data =Object.fromEntries(Datalengkap.entries());*/
     // console.log(data); /*kalau mau coba, masukkan data dengan consol log */
@@ -40,4 +40,51 @@ export const saveContact = async (prevState: any,Datalengkap /* Parameter di isi
     //lakukan revalidasi dan redirect catch
     revalidatePath("/contacts");
     redirect("/contacts")
+};
+
+
+export const updateContact = async (id: string, prevState: any, Datalengkap : FormData ) => {
+
+    const validateFields = ContactSchema.safeParse(Object.fromEntries(Datalengkap.entries()));
+    
+    if(!validateFields.success){
+        return{
+            Error: validateFields.error.flatten().fieldErrors
+        }
+    }
+
+    /*setelah itu update ke database menggunakan prisma client*/
+    try {
+        await prisma.contact.update({
+            data:{
+                name: validateFields.data.name,
+                phone: validateFields.data.phone
+            },
+            where:{id}
+        })
+    } catch (error) {
+        return {messege: "Failed to update contact"}
+    }
+    
+    //lakukan revalidasi dan redirect catch
+    revalidatePath("/contacts");
+    redirect("/contacts")
+};
+
+
+/* Delete Contact */
+export const deleteContact = async (id: string ) => {
+
+
+    /*setelah itu update ke database menggunakan prisma client*/
+    try {
+        await prisma.contact.delete({
+            where:{id}
+        })
+    } catch (error) {
+        return {messege: "Failed to delete contact"}
+    }
+    
+    //lakukan revalidasi
+    revalidatePath("/contacts");
 };

@@ -1,10 +1,10 @@
 import UpdateForm from "@/components/edit-form"
-import { getContactbyId } from "@/lib/data";
+import { getContactById } from "@/lib/data";
 import { notFound } from "next/navigation";
 
 const UpdateContactPage = async({ params }: { params: { id: string } }) => { //halaman untuk server-component
     const id = params.id;
-    const contact = await getContactbyId(id); /* fungsi untuk data fetching */
+    const contact = await getContactById(id); /* fungsi untuk data fetching */
 
     //setelah itu lakukan validasi
     if(!contact){ /*jika tidak ada data dalam contact*/

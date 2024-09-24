@@ -4,6 +4,7 @@ import { updateContact } from "@/lib/actions";
 import { useFormState } from "react-dom";
 import { SubmitButton } from "@/components/buttons";
 import type { Contact } from "@prisma/client";
+import Link from "next/link";
 
 const UpdateForm = ({contact}: {contact:Contact}) => {
     /*Update data contact menggunakan bind*/
@@ -56,7 +57,18 @@ const UpdateForm = ({contact}: {contact:Contact}) => {
             <div id="message-error" aria-live="polite" aria-atomic="true">
                     <p className="mt-2 text-sm text-red-500">{state?.messege}</p>
                 </div>
-             {/*<button 
+            <div className="mb-5">
+                <label 
+                htmlFor="link" 
+                className="block text-sm font-medium text-gray-900"
+                >
+                    Link:
+                </label>
+                <Link href={`/contacts/${contact.id}`}>
+                    <a className="text-blue-500 hover:underline">View Record</a>
+                </Link>
+            </div>
+            {/*<button 
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-sm text-sm w-full px-5 py-3 text-center"
             >Save

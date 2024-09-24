@@ -8,7 +8,7 @@ const CreateForm = () => {
     const [state, formAction] = useFormState(saveContact, null);
 
     return (
-        <form action={formAction} /* buat server action yang terpisah dari componen supaya gk banyak coding */> 
+        <form action={formAction}>
             <div className="mb-5">
                 <label 
                 htmlFor="name" 
@@ -51,11 +51,6 @@ const CreateForm = () => {
             <div id="message-error" aria-live="polite" aria-atomic="true">
                     <p className="mt-2 text-sm text-red-500">{state?.messege}</p>
                 </div>
-             {/*<button 
-            type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-sm text-sm w-full px-5 py-3 text-center"
-            >Save
-            </button>*/}
             <SubmitButton />
         </form>
     )
